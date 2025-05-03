@@ -1,13 +1,10 @@
 <?php
 
 require 'functions.php';
-// require 'router.php';
 require 'Database.php';
+require 'Response.php';
+require 'router.php';
 // connect to our MySQL database.
 
-$db = new Database();
-
-$posts = $db->query("select * from posts where id = 1")->fetch(PDO::FETCH_ASSOC);
-
-
-dd($posts['title']);
+$config = require('config.php');
+$db = new Database($config['database']);

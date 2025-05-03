@@ -3,18 +3,40 @@
 class Database {
 
 public $connection;
-public function __construct(){
+public $statement;
+    public function __construct($config){
 
-    $dsn = 'mysql:host=localhost;port=3306;dbname=demo;user=root;password=p@$$w0rd;charset=utf8mb4';
-    
-    $this->connection = new PDO($dsn);
-}
-public function query($query)
-{  
+    $dsn = 'mysql:'. http_build_query($config, '',';');
 
-    $statement = $this->connection->prepare($query);
-     $statement->execute();
-    
-     return $statement;
-}
+        // $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
+        
+        $this->connection = new PDO($dsn, 'root', 'passw0rd', [
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
+    }
+    public function query($query, $prams = [])
+    {  
+
+        $this->$statement = $this->connection->prepare($query);
+        $this->$statement->execute($prams);
+        
+        return $this;
+    }
+
+    public function find(){
+        return $this->$statement->fetch();
+    }
+
+    public function get(){
+        return $this->$statement->fetchAll();
+    }
+
+    public function findOrFaile(){
+        $result = $this->find();
+        if(! $result){
+            abort();
+        }
+        return $result;
+    }
+
 }
