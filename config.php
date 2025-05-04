@@ -3,10 +3,10 @@
 return [
     'database' =>[
 
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => 3306,
         'dbname'=> 'demo',
-        'charset'=> 'utf8mb4'
+        'charset'=> 'utf8'
     ],
     'services' =>[
         

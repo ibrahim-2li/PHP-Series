@@ -10,25 +10,23 @@ public $statement;
 
         // $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
         
-        $this->connection = new PDO($dsn, 'root', 'passw0rd', [
+        $this->connection = new PDO($dsn, 'ibrahim', 'P@ssw0rd', [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
     }
-    public function query($query, $prams = [])
-    {  
-
-        $this->$statement = $this->connection->prepare($query);
-        $this->$statement->execute($prams);
+    public function query($query, $prams = []){  
+        $this->statement = $this->connection->prepare($query);
+        $this->statement->execute($prams);
         
         return $this;
     }
 
     public function find(){
-        return $this->$statement->fetch();
+        return $this->statement->fetch();
     }
 
     public function get(){
-        return $this->$statement->fetchAll();
+        return $this->statement->fetchAll();
     }
 
     public function findOrFaile(){
