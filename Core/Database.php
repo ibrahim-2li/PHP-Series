@@ -4,41 +4,47 @@ namespace Core;
 
 use PDO;
 
-class Database {
+class Database
+{
+    public $connection;
+    public $statement;
 
-public $connection;
-public $statement;
-    public function __construct($config){
+    public function __construct($config, $username = 'ibrahim', $password = 'P@ssw0rd')
+    {
+        $dsn = 'mysql:' . http_build_query($config, '', ';');
 
-    $dsn = 'mysql:'. http_build_query($config, '',';');
-
-        // $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
-        
-        $this->connection = new PDO($dsn, 'ibrahim', 'P@ssw0rd', [
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        $this->connection = new PDO($dsn, $username, $password, [
+           PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
     }
-    public function query($query, $prams = []){  
+
+    public function query($query, $params = [])
+    {
         $this->statement = $this->connection->prepare($query);
-        $this->statement->execute($prams);
-        
+
+        $this->statement->execute($params);
+
         return $this;
     }
 
-    public function find(){
-        return $this->statement->fetch();
-    }
-
-    public function get(){
+    public function get()
+    {
         return $this->statement->fetchAll();
     }
 
-    public function findOrFaile(){
-        $result = $this->find();
-        if(! $result){
-            abort();
-        }
-        return $result;
+    public function find()
+    {
+        return $this->statement->fetch();
     }
 
+    public function findOrFail()
+    {
+        $result = $this->find();
+
+        if (! $result) {
+            abort();
+        }
+
+        return $result;
+    }
 }
