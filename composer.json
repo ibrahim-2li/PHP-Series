@@ -1,0 +1,16 @@
+{
+    "name": "ibrahim/php-series",
+    "authors": [
+        {
+            "name": "ibrahim",
+            "email": "ibrahim.2li@hotmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "Http\\": "Http/"
+        }
+    }
+}
